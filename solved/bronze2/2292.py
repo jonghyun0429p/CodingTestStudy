@@ -1,8 +1,9 @@
-L = int(input())
-string = input()
-H = 0
+N = int(input())
+cnt = 1
+numbox = 1
 
-for i in range(L):
-    H += (ord(string[i])-96)*(31**i)
+while N > numbox:
+    numbox += 6 * cnt
+    cnt += 1
 
-print(H%1234567891)
+print(cnt)
