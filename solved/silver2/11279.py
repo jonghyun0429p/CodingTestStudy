@@ -1,5 +1,8 @@
 #11279 최대힙
 
+import sys
+input = sys.stdin.readline
+
 #단순하게 리스트 정렬로 풀기 - 당연히 시간초과
 
 # T = int(input())
@@ -18,24 +21,107 @@
 #         nList.append(n)
 #         nList.sort()
 
-#딕셔너리로 풀기
+#딕셔너리로 풀기-시간초과
+
+# T = int(input())
+#
+# nDict = dict()
+#
+# for i in range(T):
+#     n = int(input())
+#     if n == 0:
+#         if nDict:
+#             maxvalue = max(nDict.keys())
+#             nDict.pop(maxvalue)
+#             print(maxvalue)
+#         else:
+#             print('0')
+#     else:
+#         if n in nDict:
+#             nDict[n] = nDict.get(n)+1
+#         else:
+#             nDict[n] = 1
+
+# 힙 구현 heapq는 최소 힙이니까, 구현해줘야함.
+
+def heappush(heap, data):
+    heap.append(data)
+    current = len(heap) - 1
+
+    while current > 0:
+        parent = (current - 1) // 2
+
+        if heap[parent] < heap[current]:
+            heap[parent], heap[current] = heap[current], heap[parent]
+
+            current = parent
+
+        else:
+            break
+
+def heappop(heap):
+    length = len(heap)
+    if not heap:
+        return 0
+    else:
+        if length == 1:
+            return heap.pop()
+        elif length == 2:
+            heap[0], heap[1] = heap[1], heap[0]
+            return heap.pop()
+
+    maximum = heap[0]
+    heap[0] = heap.pop()
+
+    current = 0
+
+    while current*2+1 < length-2:
+        child_left = current*2 + 1
+        child_right = current*2 + 2
+
+        if heap[child_left] >= heap[child_right]:
+            if heap[current] < heap[child_left]:
+                heap[current], heap[child_left] = heap[child_left], heap[current]
+                current = child_left
+            elif heap[current] < heap[child_right]:
+                heap[current], heap[child_right] = heap[child_right], heap[current]
+                current = child_right
+            else:
+                break
+        else:
+            if heap[current] < heap[child_right]:
+                heap[current], heap[child_right] = heap[child_right], heap[current]
+                current = child_right
+            elif heap[current] < heap[child_left]:
+                heap[current], heap[child_left] = heap[child_left], heap[current]
+                current = child_left
+            else:
+                break
+
+    return maximum
+
+heap = []
 
 T = int(input())
-
-nDict = dict()
 
 for i in range(T):
     n = int(input())
     if n == 0:
-        if nDict:
-            nDict.pop(max(nDict.keys()))
-        else:
-            print('0')
+        print(heappop(heap))
     else:
-        if i in nDict:
-            nDict[i] = nDict.get(i)+1
-        else:
-            nDict[i] = 1
+        heappush(heap, n)
+    print(heap)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
