@@ -50,10 +50,8 @@ def heappush(heap, data):
 
     while current > 0:
         parent = (current - 1) // 2
-
         if heap[parent] < heap[current]:
             heap[parent], heap[current] = heap[current], heap[parent]
-
             current = parent
 
         else:
@@ -74,31 +72,42 @@ def heappop(heap):
     heap[0] = heap.pop()
 
     current = 0
+    current_length = length-1
+    maxIndex = length-2
 
-    while current*2+1 < length-2:
+    while current*2+1 < current_length:
         child_left = current*2 + 1
-        child_right = current*2 + 2
-
-        if heap[child_left] >= heap[child_right]:
-            if heap[current] < heap[child_left]:
+        if current*2+2 <= maxIndex:
+            child_right = current*2 + 2
+            max_value = maxchild(heap, current, child_left, child_right)
+            if max_value == child_left:
                 heap[current], heap[child_left] = heap[child_left], heap[current]
                 current = child_left
-            elif heap[current] < heap[child_right]:
+            elif max_value == child_right:
                 heap[current], heap[child_right] = heap[child_right], heap[current]
                 current = child_right
             else:
                 break
         else:
-            if heap[current] < heap[child_right]:
-                heap[current], heap[child_right] = heap[child_right], heap[current]
-                current = child_right
-            elif heap[current] < heap[child_left]:
+            if heap[current] < heap[child_left]:
                 heap[current], heap[child_left] = heap[child_left], heap[current]
                 current = child_left
             else:
                 break
 
     return maximum
+
+def maxchild(heap, current, child_left, child_right):
+    if heap[child_left] >= heap[child_right]:
+        if heap[child_left] > heap[current]:
+            return child_left
+        else:
+            return current
+    else:
+        if heap[child_right] > heap[current]:
+            return child_right
+        else:
+            return current
 
 heap = []
 
@@ -110,7 +119,6 @@ for i in range(T):
         print(heappop(heap))
     else:
         heappush(heap, n)
-    print(heap)
 
 
 
