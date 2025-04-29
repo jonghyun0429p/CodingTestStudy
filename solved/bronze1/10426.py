@@ -20,11 +20,9 @@ def check_year(yy):
         return False
 
 while goal_day > 0:
-    if check_year(year):
-        if month == 2:
-            current_month = months[12]
-        else:
-            current_month = months[month-1]
+    # 현재 달 일수 계산
+    if check_year(year) and month == 2:
+        current_month = 29
     else:
         current_month = months[month-1]
 
@@ -47,14 +45,7 @@ while goal_day > 0:
         day = goal_day
         goal_day = 0
 
-if day < 10 and month < 10:
-    print("%d-0%d-0%d" % (year, month, day))
-elif day < 10:
-    print("%d-%d-0%d" % (year, month, day))
-elif month < 10:
-    print("%d-0%d-%d" % (year, month, day))
-else:
-    print("%d-%d-%d" % (year, month, day))
+print(f"{year}-{month:02d}-{day:02d}")
 
 # import sys
 # input = sys.stdin.readline
