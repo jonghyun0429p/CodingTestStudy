@@ -34,6 +34,7 @@
 import sys
 input = sys.stdin.readline
 
+
 N = int(input())
 # 인접행렬 읽기
 reach = [list(map(int, input().split())) for _ in range(N)]
