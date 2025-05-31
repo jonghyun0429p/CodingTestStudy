@@ -1,25 +1,34 @@
-import java.util.*;
+//DP 배낭문제
+
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] countAndWeight = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        int count = countAndWeight[0];
-        int weight = countAndWeight[1];
-        int[] dp = new int[weight + 1];
+        int[] NK = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
-        for(int i = 0; i < count; i++) {
-        	int[] weightValue = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int[] weights = new int[NK[1]+1];
+        int maxWeight = 0;
 
-        	for (int k = weight; k >= weightValue[0]; k--) {
-                dp[k] = Math.max(dp[k], dp[k - weightValue[0]] + weightValue[1]);
+        for(int i = 0; i < NK[0]; i++){
+            int[] pack = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+
+            int kg = pack[0];
+            int weight = pack[1];
+
+            for(int j = NK[1] - kg; j >= 0; j--){
+                weights[j+kg] = Math.max(weights[j+kg], weights[j] + weight);
             }
         }
 
-        System.out.println(dp[weight]);
+        for(int i = 1; i <= NK[1]; i++){
+            maxWeight = Math.max(maxWeight, weights[i]);
+        }
 
+        System.out.println(maxWeight);
     }
 }
